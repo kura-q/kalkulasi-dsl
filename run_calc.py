@@ -14,7 +14,7 @@ class ScenarioRuntime(ScenarioCalcVisitor):
         self.variables = {}   # store variables values
         self.report_output = []
 
-    # Helpers --------------------------------------------------
+    # ===================== Helpers =====================
 
     def get_value(self, name):
         if name not in self.variables:
@@ -29,9 +29,7 @@ class ScenarioRuntime(ScenarioCalcVisitor):
             return val
         raise Exception(f"Boolean expected, got: {val}")
 
-    # =========================================================
-    #   VISIT ROOT
-    # =========================================================
+    # ===================== ROOT ========================
 
     def visitProgram(self, ctx):
         for scenario in ctx.scenarioDecl():
@@ -39,103 +37,75 @@ class ScenarioRuntime(ScenarioCalcVisitor):
         return self.report_output
 
     def visitScenarioDecl(self, ctx):
-        name = ctx.STRING().getText()
-        name = name.strip('"')
+        name = ctx.STRING().getText().strip('"')
         print(f"\n--- RUNNING SCENARIO: {name} ---")
-
         self.visit(ctx.scenarioBody())
 
     def visitScenarioBody(self, ctx):
-        # order matters
         self.visit(ctx.givenBlock())
         self.visit(ctx.calculateBlock())
         self.visit(ctx.reportBlock())
 
-    # =========================================================
-    #   GIVEN BLOCK
-    # =========================================================
+    # ===================== BLOCKS ======================
 
     def visitGivenBlock(self, ctx):
         for stmt in ctx.statement():
             self.visit(stmt)
 
-    # =========================================================
-    #   CALCULATE BLOCK
-    # =========================================================
-
     def visitCalculateBlock(self, ctx):
         for stmt in ctx.statement():
             self.visit(stmt)
-
-    # =========================================================
-    #   STATEMENTS
-    # =========================================================
-
-    def visitStatement(self, ctx):
-        if ctx.assignment():
-            return self.visit(ctx.assignment())
-        if ctx.ifStatement():
-            return self.visit(ctx.ifStatement())
-
-    # ---------------------------------------------------------
-    #   ASSIGNMENT
-    # ---------------------------------------------------------
-
-    def visitAssignment(self, ctx):
-        name = ctx.ID().getText()
-        value = self.visit(ctx.expr())
-        self.set_value(name, value)
-        return value
-
-    # ---------------------------------------------------------
-    #   IF STATEMENT
-    # ---------------------------------------------------------
-
-    def visitIfStatement(self, ctx):
-        condition = self.visit(ctx.expr())
-        all_stmts = ctx.statement()
-
-        # Temukan posisi keyword ELSE di children list
-        has_else = ctx.ELSE() is not None
-
-        if not has_else:
-            if condition:
-                for s in all_stmts:
-                    self.visit(s)
-            return
-
-        # kalau ada ELSE, pisahkan THEN dan ELSE
-        else_token = ctx.ELSE().symbol.tokenIndex
-        then_stmts = []
-        else_stmts = []
-
-        for s in all_stmts:
-            if s.start.tokenIndex < else_token:
-                then_stmts.append(s)
-            else:
-                else_stmts.append(s)
-
-        if condition:
-            for s in then_stmts:
-                self.visit(s)
-        else:
-            for s in else_stmts:
-                self.visit(s)
-
-    # =========================================================
-    #   REPORT BLOCK
-    # =========================================================
 
     def visitReportBlock(self, ctx):
         for item in ctx.reportItem():
             self.visit(item)
 
+    # ===================== STATEMENTS ==================
+
+    # statement: assignment #StAssign | ifStatement #StIf
+    # kita tidak perlu visitStAssign/visitStIf eksplisit;
+    # cukup handle di level Assign & IfStmt
+
+    # assignment: ID ASSIGN expr SEMI? #Assign
+    def visitAssign(self, ctx):
+        name = ctx.ID().getText()
+        value = self.visit(ctx.expr())
+        self.set_value(name, value)
+        return value
+
+    # ifStatement: IF expr THEN statement+ (ELSE statement+)? END #IfStmt
+    def visitIfStmt(self, ctx):
+        condition = self.visit(ctx.expr())
+        stmts = ctx.statement()
+
+        if ctx.ELSE():
+            else_token = ctx.ELSE().symbol.tokenIndex
+            then_stmts = []
+            else_stmts = []
+
+            for s in stmts:
+                if s.start.tokenIndex < else_token:
+                    then_stmts.append(s)
+                else:
+                    else_stmts.append(s)
+
+            if self.eval_bool(condition):
+                for s in then_stmts:
+                    self.visit(s)
+            else:
+                for s in else_stmts:
+                    self.visit(s)
+        else:
+            if self.eval_bool(condition):
+                for s in stmts:
+                    self.visit(s)
+
+    # ===================== REPORT ======================
+
+    # reportItem: ID (AS STRING)? SEMI? #ReportItemRule
     def visitReportItemRule(self, ctx):
         name = ctx.ID().getText()
-        label = None
-
-        if ctx.AS():
-            label = ctx.STRING().getText().strip('"')
+        label = ctx.STRING().getText().strip('"') if ctx.AS() else None
 
         value = self.get_value(name)
         output_label = label if label else name
@@ -144,89 +114,123 @@ class ScenarioRuntime(ScenarioCalcVisitor):
         print(result)
         self.report_output.append(result)
 
-    # =========================================================
-    #   EXPRESSIONS
-    # =========================================================
+    # ===================== EXPRESSIONS =================
+    # expr: expr OR expr2 #OrExpr | expr2 #Expr2Only
 
-    # OR
-    def visitOrExprRule(self, ctx):
+    def visitOrExpr(self, ctx):
         left = self.eval_bool(self.visit(ctx.expr()))
         right = self.eval_bool(self.visit(ctx.expr2()))
         return left or right
 
-    # AND
-    def visitAndExprRule(self, ctx):
+    def visitExpr2Only(self, ctx):
+        return self.visit(ctx.expr2())
+
+    # expr2: expr2 AND expr3 #AndExpr | expr3 #Expr3Only
+
+    def visitAndExpr(self, ctx):
         left = self.eval_bool(self.visit(ctx.expr2()))
         right = self.eval_bool(self.visit(ctx.expr3()))
         return left and right
 
-    # NOT
-    def visitNotExprRule(self, ctx):
+    def visitExpr3Only(self, ctx):
+        return self.visit(ctx.expr3())
+
+    # expr3: NOT expr3 #NotExpr | comparison #CompareOnly
+
+    def visitNotExpr(self, ctx):
         val = self.eval_bool(self.visit(ctx.expr3()))
         return not val
 
-    # COMPARISON
-    def visitComparison(self, ctx):
+    def visitCompareOnly(self, ctx):
+        return self.visit(ctx.comparison())
+
+    # comparison: arithmetic ((EQ|NEQ|GT|LT|GTE|LTE) arithmetic)? #CompareExpr
+
+    def visitCompareExpr(self, ctx):
         left = self.visit(ctx.arithmetic(0))
+        if ctx.arithmetic(1) is None:
+            return left
+
+        right = self.visit(ctx.arithmetic(1))
 
         if ctx.EQ():
-            return left == self.visit(ctx.arithmetic(1))
+            return left == right
         if ctx.NEQ():
-            return left != self.visit(ctx.arithmetic(1))
+            return left != right
         if ctx.GT():
-            return left > self.visit(ctx.arithmetic(1))
+            return left > right
         if ctx.LT():
-            return left < self.visit(ctx.arithmetic(1))
+            return left < right
         if ctx.GTE():
-            return left >= self.visit(ctx.arithmetic(1))
+            return left >= right
         if ctx.LTE():
-            return left <= self.visit(ctx.arithmetic(1))
+            return left <= right
 
         return left
 
-    # ---------------------------
-    # BASIC MATH
-    # ---------------------------
+    # arithmetic: arithmetic PLUS term #Add
+    #           | arithmetic MINUS term #Sub
+    #           | term #TermOnly
 
-    def visitAddRule(self, ctx):
+    def visitAdd(self, ctx):
         return self.visit(ctx.arithmetic()) + self.visit(ctx.term())
 
-    def visitSubRule(self, ctx):
+    def visitSub(self, ctx):
         return self.visit(ctx.arithmetic()) - self.visit(ctx.term())
 
-    def visitMulRule(self, ctx):
+    def visitTermOnly(self, ctx):
+        return self.visit(ctx.term())
+
+    # term: term STAR factor #Mul
+    #     | term DIV factor #Div
+    #     | factor #FactorOnly
+
+    def visitMul(self, ctx):
         return self.visit(ctx.term()) * self.visit(ctx.factor())
 
-    def visitDivRule(self, ctx):
+    def visitDiv(self, ctx):
         divisor = self.visit(ctx.factor())
         if divisor == 0:
             raise Exception("ERROR: Division by zero")
         return self.visit(ctx.term()) / divisor
 
-    def visitPowerRule(self, ctx):
+    def visitFactorOnly(self, ctx):
+        return self.visit(ctx.factor())
+
+    # factor: primary CARET factor #Power
+    #       | primary #PrimaryOnly
+
+    def visitPower(self, ctx):
         return self.visit(ctx.primary()) ** self.visit(ctx.factor())
 
-    # ---------------------------
-    # PRIMARY VALUES
-    # ---------------------------
+    def visitPrimaryOnly(self, ctx):
+        return self.visit(ctx.primary())
 
-    def visitNumberRule(self, ctx):
+    # primary:
+    #   NUMBER #Number
+    # | ID     #VarRef
+    # | STRING #StringLit
+    # | LPAREN expr RPAREN #ParenExpr
+    # | PLUS primary #UnaryPlus
+    # | MINUS primary #UnaryMinus
+
+    def visitNumber(self, ctx):
         text = ctx.NUMBER().getText()
         return float(text) if "." in text else int(text)
 
-    def visitVarRefRule(self, ctx):
+    def visitVarRef(self, ctx):
         return self.get_value(ctx.ID().getText())
 
-    def visitStringRule(self, ctx):
+    def visitStringLit(self, ctx):
         return ctx.STRING().getText().strip('"')
 
-    def visitParenRule(self, ctx):
+    def visitParenExpr(self, ctx):
         return self.visit(ctx.expr())
 
-    def visitUnaryPlusRule(self, ctx):
+    def visitUnaryPlus(self, ctx):
         return +self.visit(ctx.primary())
 
-    def visitUnaryMinusRule(self, ctx):
+    def visitUnaryMinus(self, ctx):
         return -self.visit(ctx.primary())
 
 

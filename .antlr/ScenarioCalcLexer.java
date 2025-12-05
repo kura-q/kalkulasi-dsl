@@ -1,4 +1,4 @@
-// Generated from c:/KEHIDUPAN KODINGAN KU/003 plp/kalkulasi-dsl/ScenarioCalc.g4 by ANTLR 4.13.1
+// Generated from d:/GitHub/kalkulasi-dsl/ScenarioCalc.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
