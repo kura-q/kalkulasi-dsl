@@ -1,0 +1,26 @@
+scenario "EV Charging Strategy" {
+  given
+    battery_capacity = 75;   // kWh
+    soc_now = 25;            // %
+    price_peak = 1800;       // Rp/kWh
+    price_offpeak = 950;     // Rp/kWh
+
+  calculate
+    energy_needed = (100 - soc_now) / 100 * battery_capacity;
+
+    if soc_now < 30 then
+      mode = "Charge NOW - critical low";
+      estimated_cost = energy_needed * price_peak;
+    else if soc_now < 70 then
+      mode = "Scheduled to Offpeak";
+      estimated_cost = energy_needed * price_offpeak;
+    else
+      mode = "Not Required";
+      estimated_cost = 0;
+    end
+
+  report
+    energy_needed as "kWh to Full";
+    estimated_cost as "Est. Cost (Rp)";
+    mode;
+}

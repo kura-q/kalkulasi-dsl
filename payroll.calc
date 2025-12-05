@@ -1,0 +1,17 @@
+scenario "Payroll" {
+  given
+    gaji_pokok = 5000000;
+    tunjangan = 800000;
+    bonus = 1200000;
+    pajak_rate = 0.05;
+
+  calculate
+    bruto = gaji_pokok + tunjangan + bonus;
+    pajak = bruto * pajak_rate;
+    gaji_bersih = bruto - pajak;
+
+  report
+    bruto;
+    pajak;
+    gaji_bersih as "Take-home pay (IDR)";
+}

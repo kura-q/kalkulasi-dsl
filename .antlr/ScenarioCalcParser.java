@@ -119,14 +119,6 @@ public class ScenarioCalcParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterProgram(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitProgram(this);
-		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -178,14 +170,6 @@ public class ScenarioCalcParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_scenarioDecl; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterScenarioDecl(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitScenarioDecl(this);
-		}
 	}
 
 	public final ScenarioDeclContext scenarioDecl() throws RecognitionException {
@@ -232,14 +216,6 @@ public class ScenarioCalcParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_scenarioBody; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterScenarioBody(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitScenarioBody(this);
-		}
 	}
 
 	public final ScenarioBodyContext scenarioBody() throws RecognitionException {
@@ -280,14 +256,6 @@ public class ScenarioCalcParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_givenBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterGivenBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitGivenBlock(this);
-		}
 	}
 
 	public final GivenBlockContext givenBlock() throws RecognitionException {
@@ -339,14 +307,6 @@ public class ScenarioCalcParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_calculateBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterCalculateBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitCalculateBlock(this);
-		}
 	}
 
 	public final CalculateBlockContext calculateBlock() throws RecognitionException {
@@ -398,14 +358,6 @@ public class ScenarioCalcParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_reportBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterReportBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitReportBlock(this);
-		}
 	}
 
 	public final ReportBlockContext reportBlock() throws RecognitionException {
@@ -462,14 +414,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(AssignmentContext.class,0);
 		}
 		public StAssignContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterStAssign(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitStAssign(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class StIfContext extends StatementContext {
@@ -477,14 +421,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(IfStatementContext.class,0);
 		}
 		public StIfContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterStIf(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitStIf(this);
-		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
@@ -546,14 +482,6 @@ public class ScenarioCalcParser extends Parser {
 		}
 		public TerminalNode SEMI() { return getToken(ScenarioCalcParser.SEMI, 0); }
 		public AssignContext(AssignmentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterAssign(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitAssign(this);
-		}
 	}
 
 	public final AssignmentContext assignment() throws RecognitionException {
@@ -621,14 +549,6 @@ public class ScenarioCalcParser extends Parser {
 		}
 		public TerminalNode ELSE() { return getToken(ScenarioCalcParser.ELSE, 0); }
 		public IfStmtContext(IfStatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterIfStmt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitIfStmt(this);
-		}
 	}
 
 	public final IfStatementContext ifStatement() throws RecognitionException {
@@ -717,14 +637,6 @@ public class ScenarioCalcParser extends Parser {
 		public TerminalNode STRING() { return getToken(ScenarioCalcParser.STRING, 0); }
 		public TerminalNode SEMI() { return getToken(ScenarioCalcParser.SEMI, 0); }
 		public ReportItemRuleContext(ReportItemContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterReportItemRule(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitReportItemRule(this);
-		}
 	}
 
 	public final ReportItemContext reportItem() throws RecognitionException {
@@ -790,14 +702,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(Expr2Context.class,0);
 		}
 		public Expr2OnlyContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterExpr2Only(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitExpr2Only(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class OrExprContext extends ExprContext {
@@ -809,14 +713,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(Expr2Context.class,0);
 		}
 		public OrExprContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterOrExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitOrExpr(this);
-		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -902,14 +798,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(Expr3Context.class,0);
 		}
 		public AndExprContext(Expr2Context ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterAndExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitAndExpr(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class Expr3OnlyContext extends Expr2Context {
@@ -917,14 +805,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(Expr3Context.class,0);
 		}
 		public Expr3OnlyContext(Expr2Context ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterExpr3Only(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitExpr3Only(this);
-		}
 	}
 
 	public final Expr2Context expr2() throws RecognitionException {
@@ -1006,14 +886,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(ComparisonContext.class,0);
 		}
 		public CompareOnlyContext(Expr3Context ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterCompareOnly(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitCompareOnly(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class NotExprContext extends Expr3Context {
@@ -1022,14 +894,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(Expr3Context.class,0);
 		}
 		public NotExprContext(Expr3Context ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterNotExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitNotExpr(this);
-		}
 	}
 
 	public final Expr3Context expr3() throws RecognitionException {
@@ -1104,14 +968,6 @@ public class ScenarioCalcParser extends Parser {
 		public TerminalNode GTE() { return getToken(ScenarioCalcParser.GTE, 0); }
 		public TerminalNode LTE() { return getToken(ScenarioCalcParser.LTE, 0); }
 		public CompareExprContext(ComparisonContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterCompareExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitCompareExpr(this);
-		}
 	}
 
 	public final ComparisonContext comparison() throws RecognitionException {
@@ -1179,14 +1035,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(TermContext.class,0);
 		}
 		public AddContext(ArithmeticContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterAdd(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitAdd(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class SubContext extends ArithmeticContext {
@@ -1198,14 +1046,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(TermContext.class,0);
 		}
 		public SubContext(ArithmeticContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterSub(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitSub(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class TermOnlyContext extends ArithmeticContext {
@@ -1213,14 +1053,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(TermContext.class,0);
 		}
 		public TermOnlyContext(ArithmeticContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterTermOnly(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitTermOnly(this);
-		}
 	}
 
 	public final ArithmeticContext arithmetic() throws RecognitionException {
@@ -1324,14 +1156,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(FactorContext.class,0);
 		}
 		public DivContext(TermContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterDiv(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitDiv(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class MulContext extends TermContext {
@@ -1343,14 +1167,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(FactorContext.class,0);
 		}
 		public MulContext(TermContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterMul(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitMul(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class FactorOnlyContext extends TermContext {
@@ -1358,14 +1174,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(FactorContext.class,0);
 		}
 		public FactorOnlyContext(TermContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterFactorOnly(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitFactorOnly(this);
-		}
 	}
 
 	public final TermContext term() throws RecognitionException {
@@ -1469,14 +1277,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(FactorContext.class,0);
 		}
 		public PowerContext(FactorContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterPower(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitPower(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class PrimaryOnlyContext extends FactorContext {
@@ -1484,14 +1284,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(PrimaryContext.class,0);
 		}
 		public PrimaryOnlyContext(FactorContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterPrimaryOnly(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitPrimaryOnly(this);
-		}
 	}
 
 	public final FactorContext factor() throws RecognitionException {
@@ -1550,27 +1342,11 @@ public class ScenarioCalcParser extends Parser {
 	public static class VarRefContext extends PrimaryContext {
 		public TerminalNode ID() { return getToken(ScenarioCalcParser.ID, 0); }
 		public VarRefContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterVarRef(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitVarRef(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class NumberContext extends PrimaryContext {
 		public TerminalNode NUMBER() { return getToken(ScenarioCalcParser.NUMBER, 0); }
 		public NumberContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterNumber(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitNumber(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class UnaryPlusContext extends PrimaryContext {
@@ -1579,14 +1355,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(PrimaryContext.class,0);
 		}
 		public UnaryPlusContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterUnaryPlus(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitUnaryPlus(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class UnaryMinusContext extends PrimaryContext {
@@ -1595,14 +1363,6 @@ public class ScenarioCalcParser extends Parser {
 			return getRuleContext(PrimaryContext.class,0);
 		}
 		public UnaryMinusContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterUnaryMinus(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitUnaryMinus(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ParenExprContext extends PrimaryContext {
@@ -1612,27 +1372,11 @@ public class ScenarioCalcParser extends Parser {
 		}
 		public TerminalNode RPAREN() { return getToken(ScenarioCalcParser.RPAREN, 0); }
 		public ParenExprContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterParenExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitParenExpr(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class StringLitContext extends PrimaryContext {
 		public TerminalNode STRING() { return getToken(ScenarioCalcParser.STRING, 0); }
 		public StringLitContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).enterStringLit(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ScenarioCalcListener ) ((ScenarioCalcListener)listener).exitStringLit(this);
-		}
 	}
 
 	public final PrimaryContext primary() throws RecognitionException {

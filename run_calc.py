@@ -259,7 +259,7 @@ def run_file(path):
 
 
 if __name__ == "__main__":
-    DEFAULT_FILE = "sample.dsl"  
+    DEFAULT_FILE = "sample.calc"  
     run_file(DEFAULT_FILE)
 
 
