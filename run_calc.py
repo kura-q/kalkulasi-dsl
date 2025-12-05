@@ -259,7 +259,7 @@ def run_file(path):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python run_calc.py <file.dsl>")
-    else:
-        run_file(sys.argv[1])
+    DEFAULT_FILE = "sample.dsl"  
+    run_file(DEFAULT_FILE)
+
+
