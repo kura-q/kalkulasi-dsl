@@ -1,20 +1,7 @@
+grammar ScenarioCalc;
+
 /*
-  ScenarioCalc.g4
-  - DSL for scenario-based calculations:
-      scenario "Name" {
-        given
-          x = 10;
-        calculate
-          y = x * 2;
-          if y > 15 then
-            z = y + 5;
-          else
-            z = y - 1;
-          end
-        report
-          y as "Result Y";
-          z;
-      }
+  ScenarioCalc DSL — FIXED VERSION (visitor-safe)
 */
 
 /* ---------------------------
@@ -34,83 +21,83 @@ scenarioBody
   ;
 
 givenBlock
-  : GIVEN statement*    // assignments only recommended
+  : GIVEN statement*
   ;
 
 calculateBlock
-  : CALCULATE statement*   // assignments and ifStatements
+  : CALCULATE statement*
   ;
 
 reportBlock
-  : REPORT reportItem+ 
+  : REPORT reportItem+
   ;
 
 statement
-  : assignment
-  | ifStatement
+  : assignment                     # StAssign
+  | ifStatement                    # StIf
   ;
 
 assignment
-  : ID ASSIGN expr SEMI?
+  : ID ASSIGN expr SEMI?           # Assign
   ;
 
 ifStatement
-  : IF expr THEN statement+ (ELSE statement+)? END
+  : IF expr THEN statement+ (ELSE statement+)? END   # IfStmt
   ;
 
 reportItem
-  : ID (AS STRING)? SEMI?
+  : ID (AS STRING)? SEMI?          # ReportItemRule
   ;
 
-/* expressions with precedence */
+/* expressions (all labeled) */
 expr
-  : expr OR expr2             # OrExpr
-  | expr2
+  : expr OR expr2                  # OrExpr
+  | expr2                          # Expr2Only
   ;
 
 expr2
-  : expr2 AND expr3           # AndExpr
-  | expr3
+  : expr2 AND expr3                # AndExpr
+  | expr3                          # Expr3Only
   ;
 
 expr3
-  : NOT expr3                 # NotExpr
-  | comparison
+  : NOT expr3                      # NotExpr
+  | comparison                     # CompareOnly
   ;
 
 comparison
-  : arithmetic ((EQ | NEQ | GT | LT | GTE | LTE) arithmetic)?
+  : arithmetic ((EQ | NEQ | GT | LT | GTE | LTE) arithmetic)?  # CompareExpr
   ;
 
+/* arithmetic */
 arithmetic
-  : arithmetic PLUS term      # Add
-  | arithmetic MINUS term     # Sub
-  | term
+  : arithmetic PLUS term           # Add
+  | arithmetic MINUS term          # Sub
+  | term                           # TermOnly
   ;
 
 term
-  : term STAR factor          # Mul
-  | term DIV factor           # Div
-  | factor
+  : term STAR factor               # Mul
+  | term DIV factor                # Div
+  | factor                         # FactorOnly
   ;
 
 factor
-  : primary CARET factor      # Power
-  | primary
+  : primary CARET factor           # Power
+  | primary                        # PrimaryOnly
   ;
 
 primary
-  : NUMBER                    # Number
-  | ID                        # VarRef
-  | STRING                    # StringLit
-  | LPAREN expr RPAREN        # ParenExpr
-  | PLUS primary              # UnaryPlus
-  | MINUS primary             # UnaryMinus
+  : NUMBER                         # Number
+  | ID                             # VarRef
+  | STRING                         # StringLit
+  | LPAREN expr RPAREN             # ParenExpr
+  | PLUS primary                   # UnaryPlus
+  | MINUS primary                  # UnaryMinus
   ;
 
 /* ---------------------------
-   LEXER RULES (tokens)
-   Order matters: keywords before ID
+   LEXER RULES
    --------------------------- */
 
 /* keywords */
@@ -148,7 +135,6 @@ LT     : '<';
 GTE    : '>=';
 LTE    : '<=';
 
-/* boolean operators as keywords */
 AND : 'and';
 OR  : 'or';
 NOT : 'not';
@@ -159,15 +145,13 @@ STRING
   ;
 
 NUMBER
-  : DIGIT+ ('.' DIGIT+)?      // integer or float
+  : DIGIT+ ('.' DIGIT+)?
   ;
 
-/* identifier (variable names) */
 ID
   : [a-zA-Z_] [a-zA-Z0-9_]*
   ;
 
-/* skip whitespace and comments */
 WS
   : [ \t\r\n]+ -> skip
   ;
@@ -180,5 +164,4 @@ BLOCK_COMMENT
   : '/*' .*? '*/' -> skip
   ;
 
-/* fragments */
 fragment DIGIT : [0-9] ;
