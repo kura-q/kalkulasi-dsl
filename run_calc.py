@@ -259,7 +259,5 @@ def run_file(path):
 
 
 if __name__ == "__main__":
-    DEFAULT_FILE = "sample.calc"  
+    DEFAULT_FILE = "PrecedenceTest.calc"  
     run_file(DEFAULT_FILE)
-
-

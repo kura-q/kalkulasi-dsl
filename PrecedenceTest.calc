@@ -1,0 +1,14 @@
+scenario "Precedence Test" {
+  given
+    x = 2;
+
+  calculate
+    a = x + 3 * 4;        // expected: 14
+    b = (x + 3) * 4;      // expected: 20
+    c = x ^ 3 * x;        // expected: 16 jika ^ lebih tinggi dari *
+  
+  report
+    a as "a";
+    b as "b";
+    c as "c";
+}

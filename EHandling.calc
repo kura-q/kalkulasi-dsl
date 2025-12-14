@@ -1,0 +1,8 @@
+scenario "Undefined Var" {
+  given
+    x = 5;
+  calculate
+    y = x + z;   // z tidak ada
+  report
+    y;
+}

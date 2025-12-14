@@ -1,0 +1,19 @@
+scenario "Grade Nested If" {
+  given
+    nilai = 72;
+  calculate
+    grade = "D";
+    if nilai >= 85 then
+      grade = "A";
+    else
+      if nilai >= 70 then
+        grade = "B";
+      else
+        if nilai >= 55 then
+          grade = "C";
+        end
+      end
+    end
+  report
+    grade;
+}

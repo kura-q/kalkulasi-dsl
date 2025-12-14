@@ -1,0 +1,13 @@
+scenario "Simple Beam" {
+  given
+    w = 10;   // kN/m
+    L = 5;    // m
+
+  calculate
+    reaction = w * L / 2;
+    shear_max = reaction;
+
+  report
+    reaction as "Reaction (kN)";
+    shear_max as "Max shear (kN)";
+}
